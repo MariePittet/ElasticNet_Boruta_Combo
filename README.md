@@ -14,7 +14,7 @@ This pipeline was developed for a study examining patients reporting varying lev
 
 ## Aim ##
 Predicting the level of clinical complaints of patients with the fewest variables necessary. 
-The final model should be *reasonnably sparse, extremely robust, and simple* enough to allow actionable insights for reducing clinical complaints.
+The final model should be **reasonnably sparse, very robust, and simple** enough to allow actionable insights for reducing clinical complaints.
 
 
 ## Methods ##
