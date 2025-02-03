@@ -17,24 +17,24 @@ library("ggplot2")
 # Data wrangling ----------------------------------------------------------
 
 # loading data
-df<- read_xlsx("data.xlsx")
+df <- read_xlsx("data.xlsx")
 
 # factorizing variables
-df$center<- as.factor(df$center)
+df$center <- as.factor(df$center)
 df$gender <- factor(ifelse(df$gender == "Male", 1, 0)) # Females = 0
-df$education<- as.factor(df$education)
+df$education <- as.factor(df$education)
 
 
 # Computing composite scores for cognitive performance --------------------
 
-df_gamified<- data.frame(df$var1, df$var2, df$var3, df$var4) 
-mean_Z_gamified<- rowMeans(df_gamified, na.rm = TRUE) # mean Z-score for gamified tests
+df_gamified <- data.frame(df$var1, df$var2, df$var3, df$var4) 
+mean_Z_gamified <- rowMeans(df_gamified, na.rm = TRUE) # mean Z-score for gamified tests
 
-df_standard<- data.frame(df$var1b, df$var2b, df$var3b, df$var4b) # mean Z-score for standard tests 
-mean_Z_standard<- rowMeans(df_standard, na.rm = TRUE) #mean Z-score for standard tests
+df_standard <- data.frame(df$var1b, df$var2b, df$var3b, df$var4b) # mean Z-score for standard tests 
+mean_Z_standard <- rowMeans(df_standard, na.rm = TRUE) #mean Z-score for standard tests
 
-df$mean_Z_gamified<- mean_Z_gamified
-df$mean_Z_standard<- mean_Z_standard
+df$mean_Z_gamified <- mean_Z_gamified
+df$mean_Z_standard <- mean_Z_standard
 
 
 # Inspecting extreme values and distributions --------------------
@@ -68,26 +68,25 @@ qqp(df$apathy_total)
 # Predicting cognitive complaints: oldschool stepwise regression  ------------------------------
 
 # data frame for stepwise regression
-df_pred<- data.frame(df$gender, df$age, df$education, df$center,
+df_pred <- data.frame(df$gender, df$age, df$education, df$center,
                      df$mood, df$apathy, 
                      df$clin,
                      df$mean_Z_gamified, df$mean_Z_standard)
 
-df_pred<- df_pred[c(-5,-14, -79 , -82, -84, -90),]
+df_pred <- df_pred[c(-5,-14, -79 , -82, -84, -90),]
 
 # stepwise regression with cfq total score
-model<- lm(df.clin ~ ., data = df_pred)
+model <- lm(df.clin ~ ., data = df_pred)
 summary(model)
 both_model <- step(model, direction = "both")
 summary(both_model)
 
 
-
 # Predicting cognitive complaints: Elastic net -------------------------------------------------------------
 
 # data frame
-data<- df_pred[,c(-7)]
-y<- df_pred$df.clin
+data <- df_pred[,c(-7)]
+y <- df_pred$df.clin
 X <- data
 
 # Train-test split of data  (70% for training the model / 30% for testing) for cross-validation
@@ -161,7 +160,6 @@ ggplot(cv_results, aes(x = lambda, y = RMSE, color = as.factor(alpha), group = a
   theme(plot.title = element_text(hjust = 0.5, size = 16))
 
 
-
 # Table of beta values across each fold -----------------------------------
 
 # Creating custom folds
@@ -192,14 +190,14 @@ transpose_s0 <- t(coefs_table$s0)
 matrix_coefs <- matrix(transpose_s0, nrow = length(transpose_s0) / 8, byrow = TRUE)
 CV <- c(1:10)
 df_coefs<- data.frame(CV, matrix_coefs)
-colnames(df_coefs)<- c("CV", "Gender", "Age", "Education", "Center", "Mood", "Apathy", "mean Z gamified", "mean Z standard")
+colnames(df_coefs) <- c("CV", "Gender", "Age", "Education", "Center", "Mood", "Apathy", "mean Z gamified", "mean Z standard")
 
 # Reshaping the dataframe for visualization
 df_long <- df_coefs %>%
   pivot_longer(cols = c(-1,-2,-4,-5), 
                names_to = "Variable", 
                values_to = "Beta")
-df_long$CV<- as.factor(df_long$CV)
+df_long$CV <- as.factor(df_long$CV)
 
 # Assigning numeric values for colors for Beta value. I want them a different color if they are positive or negative coefficients for easy detection of variability.
 df_long$Beta_Color <- factor(ifelse(df_long$Beta > 0, "positive", 
@@ -220,6 +218,7 @@ ggplot(df_long, aes(x = CV, y = Beta, group = 1)) +
   
 
 # Random forest (just for fun) -----------------------------------------------------------
+
 library(randomForest)
 
 set.seed(123)
@@ -242,6 +241,7 @@ importance_caret <- varImp(rf_model_cv, scale = FALSE)
 
 
 # BORUTA ------------------------------------------------------------------
+
 library(Boruta)
 
 # Resetting the train-test split
@@ -278,18 +278,18 @@ ggplot(importance_df, aes(x = reorder(Feature, meanImp), y = meanImp, fill = dec
 
 
 # Final model: linear mixed model with retained factors ------------------
+
 library(lmerTest)
 library(MuMIn)
 
 # Hierarchical model with one intercept modelled per center of data acquisition since it seems to influence clinical complaints. Slopes are fixed because it doesn't make sense for them to vary much.
-final_model<-  lmer(clin ~ age + Mood + (1 | center), data = df)
+final_model <-  lmer(clin ~ age + Mood + (1 | center), data = df)
 summary(final_model)
 r2_value <- r.squaredGLMM(final_model)
-print(r2_value) # Within-sample proportion of variance of the clinical variable explained by the model (careful, this is surely a bit overfitted). Marginal R2 for fixed effects, conditional R2 for fixed and random effects
+r2_value # Within-sample proportion of variance of the clinical variable explained by the model (careful, this is surely a bit overfitted). Marginal R2 for fixed effects, conditional R2 for fixed and random effects
 
-
-df_test<- data.frame(X_test, y_test) # this data is was not used for training the model
-final_model_test<-  lmer(df_test$y_test ~ df_test$df.age + df_test$df.HAD_total + (1 | df_test$df.center), data = df_test)
+df_test <- data.frame(X_test, y_test) # this data is was not used for training the model
+final_model_test <-  lmer(df_test$y_test ~ df_test$df.age + df_test$df.HAD_total + (1 | df_test$df.center), data = df_test)
 summary(final_model_test)
 r2_value_test <- r.squaredGLMM(final_model_test)
-print(r2_value_test) # out-of-sample  proportion of variance of the clinical variable explained by the model (this is closer to what you could expect if you ran this model on data acquired somewhere else)
+r2_value_test # out-of-sample  proportion of variance of the clinical variable explained by the model (this is closer to what you could expect if you ran this model on data acquired somewhere else)
