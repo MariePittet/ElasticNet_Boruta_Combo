@@ -3,9 +3,9 @@
 Contributor: Marie Pittet, marie.pittet93@gmail.com
 
 ## Description ##
-Feature selection pipeline for the predictions in clinical contexts. 
-Includes: Cross-validation, Elastic net regression, BORUTA
-Spicy things: multicollinearity, hierarchical data structure
+Feature selection pipeline for the predictions in clinical contexts.  
+Includes: Cross-validation, Elastic net regression, BORUTA   
+Spicy things: multicollinearity, hierarchical data structure  
 
 
 ## Context ##
@@ -13,7 +13,7 @@ This pipeline was developed for a study examining patients reporting varying lev
 
 
 ## Aim ##
-Predicting the level of clinical complaints of patients with the fewest variables necessary. 
+Predicting the level of clinical complaints of patients with the fewest variables necessary.  
 The final model should be **reasonnably sparse, very robust, and simple** enough to allow actionable insights for reducing clinical complaints.
 
 
