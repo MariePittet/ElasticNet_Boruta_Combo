@@ -44,7 +44,7 @@ which(is_extreme(df$var1)==TRUE)
 which(is_extreme(df$var2)==TRUE)
 which(is_extreme(df$var3)==TRUE)
 which(is_extreme(df$var4)==TRUE) # participant in row 8 is slightly off bounds
-df$Z_TNT[8]<- NA
+df$var1[8]<- NA
 
 which(is_extreme(df$var1b)==TRUE)
 which(is_extreme(df$var2b)==TRUE)
@@ -55,8 +55,8 @@ which(is_extreme(df$HAD_total)==TRUE) # participant in row 14 is an extreme valu
 df$HAD_depression[14]<- NA
 which(is_extreme(df$HAD_Anxiety)==TRUE)
 which(is_extreme(df$HAD_depression)==TRUE) # participant in row 14 is an extreme value
-df$HAD_total[14]<- NA
-which(is_extreme(df$cfq_total)==TRUE)
+df$Mood[14]<- NA
+which(is_extreme(df$clin)==TRUE)
 
 qqp(df$mean_Z_gamified)
 qqp(df$mean_Z_standard)
