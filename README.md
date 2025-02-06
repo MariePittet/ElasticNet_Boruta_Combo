@@ -1,4 +1,4 @@
-# Feature_selection_clin_var
+# Elastic-net-Boruta combo for sensible variable selection in clinical data
 
 Contributor: Marie Pittet, marie.pittet93@gmail.com
 
