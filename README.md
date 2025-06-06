@@ -3,7 +3,7 @@
 Contributor: Marie Pittet, marie.pittet93@gmail.com
 
 ## Description ##
-This pipeline performs feature selection and predictive modeling for clinical symptom data with special attention to actionable, pragmatic modelling.
+This pipeline performs feature selection and predictive modeling for clinical symptom data with special attention to actionable, pragmatic modelling.\
 Includes: Cross-validation, Elastic net regression, BORUTA   
 Spicy things: multicollinearity, hierarchical data structure  
 
@@ -19,12 +19,12 @@ The data includes multiple variables, some of which are correlated. Additionally
 - Distribution assessment via QQ-plots
 
 ### Feature selection ### 
-- Elastic Net Regression: 10-fold cross-validation to optimize the hyperparameters λ (penalization strength) and α (L1/L2 mix). RMSE to asses model performance on both training and test sets. Extraction of final model variable coefficients, and assessment of their stability across folds.
-Advantages: Elastic net handles multicollinearity among predictors.
+- Elastic Net Regression: 10-fold cross-validation to optimize the hyperparameters λ (penalization strength) and α (L1/L2 mix). RMSE to asses model performance on both training and test sets. Extraction of final model variable coefficients, and assessment of their stability across folds.\
+Advantages: Elastic net handles multicollinearity among predictors.\
 Disadvantages: It doesn't provide a direct metric for variable importance and doesn't capture non-linear relationships.
 
-- BORUTA: BORUTA used for confirmatory analysis, specifically to assess the importance of variables that showed instability in the elastic net model.
-Advantages: BORUTA provides variable importance and handles non-linear relationships well.
+- BORUTA: BORUTA used for confirmatory analysis, specifically to assess the importance of variables that showed instability in the elastic net model.\
+Advantages: BORUTA provides variable importance and handles non-linear relationships well.\
 Disadvantages: less effective in handling multicollinearity, making it suitable only as a confirmatory approach in our context.
 
 ### Linear Mixed-Effects Modeling ###
