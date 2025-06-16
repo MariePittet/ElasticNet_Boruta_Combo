@@ -11,6 +11,7 @@ Spicy things: multicollinearity, hierarchical data structure
 ## Context ##
 This pipeline was developed for a study examining the relationship between patients' cognitive complaints, assessed through a questionnaire, and multiple clinical and demographic variables. 
 The data includes multiple variables, some of which are correlated. Additionally, data were collected across three different medical centers, potentially introducing center-specific differences.
+The end goal is to predict cognitive complaints with great accuracy but also to provide clinicians with actionable variables. As such, it falls in the realms of explainable AI (XAI), with techniques such as feature relevance inspection and simplification (taking complex ML results and rebuilding a relatively simple model for out-of-sample predictions)
 
 
 ## Methods ##
