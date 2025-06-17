@@ -288,7 +288,8 @@ summary(final_model)
 r2_value <- r.squaredGLMM(final_model)
 r2_value # Within-sample proportion of variance of the clinical variable explained by the model (careful, this is surely a bit overfitted). Marginal R2 for fixed effects, conditional R2 for fixed and random effects
 
-df_test <- data.frame(X_test, y_test) # this data is was not used for training the model
+# Hierarchical model on testing data only for out-of-sample predictions
+df_test <- data.frame(X_test, y_test) # this data was not used for training the model
 final_model_test <-  lmer(df_test$y_test ~ df_test$df.age + df_test$df.HAD_total + (1 | df_test$df.center), data = df_test)
 summary(final_model_test)
 r2_value_test <- r.squaredGLMM(final_model_test)
